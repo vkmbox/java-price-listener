@@ -34,7 +34,8 @@ public class TradingStrategy implements PriceListener {
             }
         }
         
-        private <T> T nvl(T ... args) {
+        @SafeVarargs
+        private static <T> T nvl(T ... args) {
             for (T arg : args) {
                 if (arg != null) {
                     return arg;
@@ -45,12 +46,11 @@ public class TradingStrategy implements PriceListener {
         
         @Override
         public TradingStrategy build() {
-            // Validates required fields
-            notBlank(super.targetSecurity, "security cannot be null or empty!");
-            notBlank(super.threshold, "threshold cannot be null or empty!");
-            notBlank(super.executionType, "execution type cannot be null or empty!");
-            notBlank(super.volume, "volume cannot be null or empty!");
-            notBlank(super.executionService, "execution service cannot be null or empty!");
+            notBlank(super.targetSecurity, "Security cannot be null or empty!");
+            notBlank(super.threshold, "Threshold cannot be null or empty!");
+            notBlank(super.executionType, "Execution type cannot be null or empty!");
+            notBlank(super.volume, "Volume cannot be null or empty!");
+            notBlank(super.executionService, "Execution service cannot be null or empty!");
             
             int executionsLeft = 0;
             if (super.executionsNumber > 0) {

@@ -9,7 +9,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyDouble;
 
 import org.junit.Test;
+import org.junit.Rule;
 import org.mockito.Mockito;
+import org.junit.rules.ExpectedException;
 import com.acme.mytrader.price.PriceSource;
 import com.acme.mytrader.price.PriceListener;
 import com.acme.mytrader.execution.ExecutionService;
@@ -127,5 +129,16 @@ public class TradingStrategyTest {
         Mockito.verify(mockService, times(1)).sell("ORACLE", 65.7, 11);
         Mockito.verify(mockService, times(1)).sell("ORACLE", 67.1, 11);
         assertTrue("Active strategy is expected", strategy.isActive());
+    }
+    
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+    
+    @Test
+    public void testWrongInitialisation() {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("Security cannot be null or empty!");
+        TradingStrategy.builder().executionsNumber(1).threshold(55.7)
+            .volume(10).build();
     }
 }
